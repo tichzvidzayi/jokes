@@ -41,13 +41,13 @@ const Slider: React.FC = () => {
     <div className="flex items-center justify-center h-10 w-screen  bg-gradient-to-r from-purple-400 to-blue-500">
       {joke ? (
         <div className="bg-white rounded-lg shadow-lg p-6 w-full  text-center">
-          <h2 className="text-3xl font-bold mb-4 text-gray-800">
+          <h2 className="text-2xl font-bold mb-4 text-gray-800">
             Type: {joke.type}
           </h2>
-          <p className="text-xl italic text-gray-600 mb-2">
+          <p className="text-5xl italic text-gray-600 mb-2">
             Setup: {joke.setup}
           </p>
-          <p className="text-xl font-semibold text-gray-800">
+          <p className="text-5xl font-semibold text-gray-800">
             Punchline: {joke.punchline}
           </p>
         </div>
