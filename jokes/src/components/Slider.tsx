@@ -1,33 +1,40 @@
 import React, { useState, useEffect } from "react";
 
-// fetch joke
+// Define the joke interface
+interface JokeProps {
+  type: string;
+  setup: string;
+  punchline: string;
+}
 
-const fetchJoke = async () => {
+// Function to fetch a random joke
+const fetchJoke = async (): Promise<JokeProps | undefined> => {
   try {
     const response = await fetch(
       "https://official-joke-api.appspot.com/random_joke"
     );
 
     if (response.ok) {
-      const data = response.json();
+      const data: JokeProps = await response.json(); // Await the parsed response
       console.log("Joke fetch was successful");
       return data;
     } else {
       console.error("Fetch joke failed");
     }
   } catch (err) {
-    console.error("Error occured : ", err);
+    console.error("Error occurred: ", err);
   }
 };
 
+// Slider component to display the joke
 const Slider = () => {
-  const [joke, setJoke] = useState<{}>();
+  const [joke, setJoke] = useState<JokeProps | null>(null); // Initialize state with null
 
   useEffect(() => {
     const getJoke = async () => {
-      const res = await fetchJoke;
+      const res = await fetchJoke(); // Call the fetchJoke function
       if (res) {
-        setJoke(res);
+        setJoke(res); // Update state with the fetched joke
       }
     };
     getJoke();
@@ -35,8 +42,15 @@ const Slider = () => {
 
   return (
     <>
-      <p> Info</p>
-      <h1> Abc </h1>
+      {joke ? (
+        <div>
+          <p>Type: {joke.type}</p>
+          <p>Setup: {joke.setup}</p>
+          <p>Punchline: {joke.punchline}</p>
+        </div>
+      ) : (
+        <p>Loading...</p>
+      )}
     </>
   );
 };
