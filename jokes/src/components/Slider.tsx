@@ -14,40 +14,47 @@ const fetchJoke = async (): Promise<JokeProps | undefined> => {
     );
 
     if (!res.ok) {
-      console.error("Fetch error :");
+      console.error("Fetch error");
+      return;
     }
 
     const data: JokeProps = await res.json();
     return data;
   } catch (err) {
-    console.error("Error occured : ", err);
+    console.error("Error occurred: ", err);
   }
 };
 
-const Slider = () => {
-  const [joke, setJoke] = useState<JokeProps | null>();
+const Slider: React.FC = () => {
+  const [joke, setJoke] = useState<JokeProps | null>(null);
 
   useEffect(() => {
     const fetchAPI = async () => {
       const joke = await fetchJoke();
-
-      setJoke(joke);
+      setJoke(joke || null);
     };
+
     fetchAPI();
   }, []);
 
   return (
-    <>
+    <div className="flex items-center justify-center h-10 w-screen  bg-gradient-to-r from-purple-400 to-blue-500">
       {joke ? (
-        <div>
-          <p>Type: {joke.type}</p>
-          <p>Setup: {joke.setup}</p>
-          <p>Punchline: {joke.punchline}</p>
+        <div className="bg-white rounded-lg shadow-lg p-6 w-full  text-center">
+          <h2 className="text-3xl font-bold mb-4 text-gray-800">
+            Type: {joke.type}
+          </h2>
+          <p className="text-xl italic text-gray-600 mb-2">
+            Setup: {joke.setup}
+          </p>
+          <p className="text-xl font-semibold text-gray-800">
+            Punchline: {joke.punchline}
+          </p>
         </div>
       ) : (
-        <p>Loading...</p>
+        <p className="text-white text-xl">Loading...</p>
       )}
-    </>
+    </div>
   );
 };
 
