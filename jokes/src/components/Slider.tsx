@@ -1,43 +1,39 @@
 import React, { useState, useEffect } from "react";
 
-// Define the joke interface
 interface JokeProps {
   type: string;
   setup: string;
   punchline: string;
+  id: number;
 }
 
-// Function to fetch a random joke
 const fetchJoke = async (): Promise<JokeProps | undefined> => {
   try {
-    const response = await fetch(
+    const res = await fetch(
       "https://official-joke-api.appspot.com/random_joke"
     );
 
-    if (response.ok) {
-      const data: JokeProps = await response.json();
-      console.log("Joke fetch was successful");
-      return data;
-    } else {
-      console.error("Fetch joke failed");
+    if (!res.ok) {
+      console.error("Fetch error :");
     }
+
+    const data: JokeProps = await res.json();
+    return data;
   } catch (err) {
-    console.error("Error occurred: ", err);
+    console.error("Error occured : ", err);
   }
 };
 
-// Slider component to display the joke
 const Slider = () => {
-  const [joke, setJoke] = useState<JokeProps | null>(null);
+  const [joke, setJoke] = useState<JokeProps | null>();
 
   useEffect(() => {
-    const getJoke = async () => {
-      const res = await fetchJoke(); // Call the fetchJoke function
-      if (res) {
-        setJoke(res); // Update state with the fetched joke
-      }
+    const fetchAPI = async () => {
+      const joke = await fetchJoke();
+
+      setJoke(joke);
     };
-    getJoke();
+    fetchAPI();
   }, []);
 
   return (
