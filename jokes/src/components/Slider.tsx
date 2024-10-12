@@ -15,7 +15,7 @@ const fetchJoke = async (): Promise<JokeProps | undefined> => {
     );
 
     if (response.ok) {
-      const data: JokeProps = await response.json(); // Await the parsed response
+      const data: JokeProps = await response.json();
       console.log("Joke fetch was successful");
       return data;
     } else {
@@ -28,7 +28,7 @@ const fetchJoke = async (): Promise<JokeProps | undefined> => {
 
 // Slider component to display the joke
 const Slider = () => {
-  const [joke, setJoke] = useState<JokeProps | null>(null); // Initialize state with null
+  const [joke, setJoke] = useState<JokeProps | null>(null);
 
   useEffect(() => {
     const getJoke = async () => {
